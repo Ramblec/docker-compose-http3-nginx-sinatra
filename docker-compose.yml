@@ -6,15 +6,12 @@ services:
     restart: always
     volumes:
       - ./app/:/app
-  proxy:
+  web:
     image: nwtgck/nginx-http3
-    build: ./proxy
-    #代わりにimage #build: ./proxy
+    build: ./web
     restart: always
-    #command: ["nginx-debug", "-g", "daemon off;"]
-    # ↑ Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "nginx-debug": executable file not found in $PATH: unknown
     volumes:
-      - ./proxy/nginx.conf:/usr/local/nginx/conf/nginx.conf
+      - ./web/default.conf:/usr/local/nginx/conf/nginx.conf
       - ./ssl/server.crt:/etc/ssl/certs/server.crt
       - ./ssl/server.key:/etc/ssl/private/server.key
     ports:
